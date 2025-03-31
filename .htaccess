@@ -1,0 +1,12 @@
+# Enable rewrite mode
+RewriteEngine On
+
+# Check if file or directory exist, don't rewrite
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirect all request to index.php
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+#denied access app folder
+RewriteRule ^app/ - [F]
