@@ -26,6 +26,28 @@
       <h2 class='font-40px text-center'>
         stories & ideas
       </h2>
+      <div class="w-full">
+        <?php
+          if (isset($ownedPost)) {
+            $userName = '';
+            if (isset($_SESSION['USER_INFO'])) {
+              $userName = $_SESSION['USER_INFO']['userName'];
+            }
+            
+            foreach($ownedPost as $post) {
+              $slug = $post['Slug'];
+              $categoryName = $post['CategoryName'];
+              $updatedAt = $post['UpdatedAt'];
+              $title = $post['Title'];
+              $author = $userName ? $userName : $post['UserName'];
+              echo "<a href='/blog/post/". $slug .".php' class='card w-full text-decoration-none p-30px mb-30px'>";
+              echo "<p>In $categoryName by $author </p>";
+              echo "<h3>Title: $title</h3>";
+              echo "<p>$updatedAt</p></a>";
+            }
+          }
+        ?>
+      </div>
     </div>
   </main>
 <?php

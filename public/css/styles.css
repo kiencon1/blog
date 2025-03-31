@@ -53,3 +53,27 @@
 .text-red {
   color: var(--bs-red);
 }
+
+.w-full {
+  width: 100%;
+}
+
+.p-30px {
+  padding: 30px;
+}
+
+.mb-30px {
+  margin-bottom: 30px;
+}
+
+.text-decoration-none {
+  text-decoration: none;
+}
+
+.m-h-600px {
+  min-height: 600px;
+}
+
+.overflow-y-scroll {
+  overflow-y: scroll;
+}

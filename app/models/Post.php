@@ -9,14 +9,16 @@ class Post {
   public $Slug;
   public $CreatedAt;
   public $UpdatedAt;
+  public $Content;
 
   private $postDAO;
 
-  public function __construct($userID, $title, $categories, $slug, $postDAO) {
+  public function __construct($userID, $title, $categories, $slug, $content, $postDAO) {
     $this->UserID = $userID;
     $this->Title = $title;
     $this->Categories = $categories;
     $this->Slug = $slug;
+    $this->Content = $content;
 
     //dependency injection by constructor
     $this->postDAO = $postDAO;
@@ -28,6 +30,6 @@ class Post {
       throw new Exception('Title is already exist');
     }
 
-    $this->postDAO->create($this->UserID, $this->Title, $this->Categories, $this->Slug);
+    $this->postDAO->create($this->UserID, $this->Title, $this->Categories, $this->Slug, $this->Content);
   }
 }

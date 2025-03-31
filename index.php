@@ -4,7 +4,6 @@ require_once __DIR__ . '/app/controllers/HomeController.php';
 require_once __DIR__ . '/app/controllers/BlogController.php';
 // index.php - Root Router 
 $request = trim($_SERVER['REQUEST_URI'], '/');; // GET URI
-var_dump($request);
 switch ($request) {
   
   case 'blog':
@@ -34,6 +33,13 @@ switch ($request) {
     break;
 
   default:
+    $words = explode('/', $request);
+    if (count($words) === 3 && $words[1] == 'post') {
+      $controller = new BlogController();
+      $slug = str_replace('.php', '', $words[2]);
+      $controller->read($slug);
+      break;
+    }
     echo "404 Not Found";
     break;
 };

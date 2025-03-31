@@ -1,0 +1,1 @@
+ALTER TABLE Post ADD Content Text NOT NULL;

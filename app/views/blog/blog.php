@@ -6,7 +6,7 @@
 ?>
   <main class='main'>
     <div class='container flex justify-center items-center h-full flex-col'>
-      <form action='blog.php' method='POST' enctype="multipart/form-data">
+      <form action='blog.php' method='POST' class='w-full m-h-600px'>
         <div class='mb-3'>
           <label for='titleIpt' class='form-label'>Title</label>
           <input name='title' type='text' class='form-control' id='titleIpt' required>
@@ -36,8 +36,8 @@
           </select>
         </div>
         <div class='mb-3'>
-          <label for='htmlFileIpt' class='form-label'>HTML file</label>
-          <input name='htmlFile' type='file' class='form-control' id='htmlFileIpt' required>
+          <label for='contentIpt' class='form-label'>Content</label>
+          <textarea name='content' type='file' class='form-control overflow-y-scroll' id='contentIpt' required></textarea>
         </div>
         <button type='submit' class='btn btn-primary'>Submit</button>
       </form>
