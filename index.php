@@ -4,8 +4,15 @@ require_once __DIR__ . '/app/controllers/HomeController.php';
 require_once __DIR__ . '/app/controllers/BlogController.php';
 // index.php - Root Router 
 $request = trim($_SERVER['REQUEST_URI'], '/');; // GET URI
-switch ($request) {
-  
+$splitRequest = explode('?', $request);
+
+if (count($splitRequest) === 2) {
+  [$path, $queries] = $splitRequest;
+} else {
+  [$path] = $splitRequest;
+}
+
+switch ($path) {  
   case 'blog':
   case 'blog/index.php':
     $controller = new HomeController();
@@ -30,6 +37,12 @@ switch ($request) {
   case 'blog/blog.php':
     $controller = new BlogController();
     $controller->write();
+    break;
+
+  case 'blog/search.php':
+    $controller = new BlogController();
+    $param = isset($queries) ? $queries : null;
+    $controller->search($param);
     break;
 
   default:

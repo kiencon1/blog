@@ -12,11 +12,7 @@ class UserDAO extends Dao {
     $sql = 'INSERT INTO user (Name, Password) VALUES (?, ?)';
     $stmt = $this->mysqli->prepare($sql);
     $stmt->bind_param('ss', $user->Name, $user->Password);
-    if ($stmt->execute()) {
-      var_dump('Record created successfully.');
-    } else {
-      var_dump('Error '. $stmt->error);
-    }
+    $stmt->execute();
   }
 
   public function validateUser($name, $password) {
@@ -32,5 +28,22 @@ class UserDAO extends Dao {
     }
 
     return ['isValid' => false];;
+  }
+
+  function getAuthors() {
+    //todo: optimize it by pagination
+    $sql = 'Select ID, Name from User';
+    $stmt = $this->mysqli->prepare($sql);
+    $stmt->execute();
+
+    $data = [];
+    $result = $stmt->get_result();
+    if($result->num_rows > 0) {
+      while($row = $result->fetch_assoc()) {
+        $data[] = $row;
+      }
+    }
+
+    return $data;
   }
 }

@@ -51,22 +51,6 @@ class PostDAO extends Dao {
     return $result->fetch_assoc();
   }
 
-  function getCategories() {
-    $sql = 'Select ID, Name from category';
-    $stmt = $this->mysqli->prepare($sql);
-    $stmt->execute();
-
-    $data = [];
-    $result = $stmt->get_result();
-    if($result->num_rows > 0) {
-      while($row = $result->fetch_assoc()) {
-        $data[] = $row;
-      }
-    }
-
-    return $data;
-  }
-
   function getByDefault() {
     $sql = 'Select * from post join categorypost on post.ID = categorypost.postID order by ID desc';
     $stmt = $this->mysqli->prepare($sql);
@@ -103,7 +87,11 @@ class PostDAO extends Dao {
   }
 
   private function reviseByCategoryName($post) {
-    $categoryIDs = array_map(function($row){
+    if (!is_array($post) || count($post) === 0) {
+      return [];
+    }
+
+    $categoryIDs = array_map(function($row) {
       return $row['CategoryID'];
     }, $post);
 
@@ -129,6 +117,10 @@ class PostDAO extends Dao {
   }
 
   private function reviseByUserName($post) {
+    if (!is_array($post) || count($post) === 0) {
+      return [];
+    }
+
     $userIDs = array_map(function($row){
       return $row['UserID'];
     }, $post);
@@ -152,5 +144,79 @@ class PostDAO extends Dao {
     }
 
     return $post;
+  }
+
+  function search($title, $categoryID, $authorID) {
+    [$sql, $bindParam, $params] = $this->generateSQLForSearching($title, $categoryID, $authorID);
+    $stmt = $this->mysqli->prepare($sql);
+    $length = strlen($bindParam);
+
+    if ($length > 0) {
+      if ($length === 1) {
+        $stmt->bind_param($bindParam, $params[0]);
+      } else if ($length === 2) {
+        $stmt->bind_param($bindParam, $params[0], $params[1]);
+      } elseif ($length === 3) {
+        $stmt->bind_param($bindParam, $params[0], $params[1], $params[2]);
+      }
+    }
+    
+    $stmt->execute();
+
+    $data = [];
+    $result = $stmt->get_result();
+    if($result->num_rows > 0) {
+      while($row = $result->fetch_assoc()) {
+        $data[] = $row;
+      }
+    }
+
+    $post = $this->reviseByCategoryName($data);
+
+    return $this->reviseByUserName($post);
+  }
+
+  private function generateSQLForSearching($title, $categoryID, $authorID) {
+    $sql = 'SELECT * FROM Post JOIN categorypost ON post.ID = categorypost.postID WHERE';
+    $isHavingCondition = false;
+    $bindParams = '';
+    $params = [];
+
+    if ($title) {
+      $sql .= ' MATCH(title) against(?)';
+      $isHavingCondition = true;
+      $bindParams = 's';
+      $params[] = $title;
+    }
+
+    if ($categoryID) {
+      if ($isHavingCondition) {
+        $sql .= ' AND';
+      }
+      $isHavingCondition = true;
+
+      $sql .= ' categorypost.CategoryID = ?';
+      $bindParams .= 'i';
+      $params[] = $categoryID;
+    }
+
+    if ($authorID) {
+      if ($isHavingCondition) {
+        $sql .= ' AND';
+      }
+      $isHavingCondition = true;
+
+      $sql .= ' Post.UserID = ?';
+      $bindParams .= 'i';
+      $params[] = $authorID;
+    }
+
+    if ($isHavingCondition === false) {
+      $sql .= ' TRUE';
+    } else {
+      $sql .= ' ORDER BY ID DESC';
+    }
+
+    return [$sql, $bindParams, $params];
   }
 }
