@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ .'/../models/Post.php';
 require_once __DIR__ .'/../DAO/CategoryDAO.php';
+require_once __DIR__ .'/../DAO/CommentDAO.php';
 
 class BlogController {
   private function createSlug($title) {
@@ -43,8 +44,11 @@ class BlogController {
 
   public function read($slug) {
     $postDAO = new PostDAO();
+    $commentDAO = new CommentDAO();
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
       $post = $postDAO->getPostBySlug($slug);
+      $comments = $commentDAO->getBySlug($slug);
+      
       require __DIR__ . '/../views/blog/post.php';
     }
   }
@@ -72,5 +76,18 @@ class BlogController {
     }
 
     require __DIR__ . '/../views/blog/search.php';
+  }
+
+  function comment() {
+    $commentDAO = new CommentDAO();
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $userID = $_POST['userID'];
+      $postID = $_POST['postID'];
+      $content = $_POST['content'];
+
+      $commentDAO->comment($userID, $postID, $content);
+    } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+      $comments = $commentDAO->getByPostID($postID);
+    }
   }
 }
