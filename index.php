@@ -44,7 +44,10 @@ switch ($path) {
     $param = isset($queries) ? $queries : null;
     $controller->search($param);
     break;
-
+  case 'blog/post/comment.php':
+    $controller = new BlogController();
+    $controller->comment();
+    break;
   default:
     $words = explode('/', $request);
     if (count($words) === 3 && $words[1] == 'post') {

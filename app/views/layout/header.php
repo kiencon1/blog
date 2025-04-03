@@ -45,24 +45,24 @@
           <div class='offcanvas-body'>
             <ul class='navbar-nav justify-content-end flex-grow-1 pe-3'>
               <li class='nav-item'>
-                <a class='nav-link' aria-current='page' href='search.php'>Search</a>
+                <a class='nav-link' aria-current='page' href='http://localhost/blog/search.php'>Search</a>
               </li>
               <?php
                 if (!isset($_SESSION['USER_INFO'])) {
                   echo 
                   "<li class='nav-item'>
-                    <a class='nav-link' aria-current='page' href='sign-in.php'>Sign in</a>
+                    <a class='nav-link' aria-current='page' href='http://localhost/blog/sign-in.php'>Sign in</a>
                   </li>
                   <li class='nav-item'>
-                    <a class='nav-link' aria-current='page' href='sign-up.php'>Sign up</a>
+                    <a class='nav-link' aria-current='page' href='http://localhost/blog/sign-up.php'>Sign up</a>
                   </li>";
                 } else {
                   echo
                   "<li class='nav-item'>
-                    <a class='nav-link' aria-current='page' href='blog.php'>Blog</a>
+                    <a class='nav-link' aria-current='page' href='http://localhost/blog'>Blog</a>
                   </li>
                   <li class='nav-item'>
-                    <a class='nav-link' aria-current='page' href='sign-out.php'>Sign out</a>
+                    <a class='nav-link' aria-current='page' href='http://localhost/blog/sign-out.php'>Sign out</a>
                   </li>";
                 }
               ?>

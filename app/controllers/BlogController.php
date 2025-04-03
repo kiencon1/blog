@@ -78,16 +78,34 @@ class BlogController {
     require __DIR__ . '/../views/blog/search.php';
   }
 
+  private function generateComments($comments) {
+    foreach ($comments as $comment) {
+      $content = $comment['Content'];
+      $date = $comment['UpdatedAt'];
+      $name = $comment['Name'];
+      echo "<div class='my-2 border-t-1'>
+          <p>Author: <b>$name</b><br><i><small>$date</small></i></p>
+          <p>$content</p>
+        </div>";
+    }
+  }
+
   function comment() {
     $commentDAO = new CommentDAO();
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      $userID = $_POST['userID'];
-      $postID = $_POST['postID'];
-      $content = $_POST['content'];
+      $json = file_get_contents('php://input');
+      $data = json_decode($json, true);
+
+      $userID =  $data['userID'];
+      $postID = $data['postID'];
+      $content = $data['content'];
 
       $commentDAO->comment($userID, $postID, $content);
+      echo json_encode([]);
     } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-      $comments = $commentDAO->getByPostID($postID);
+      $postID = $_GET['postID'];
+      $comments = $commentDAO->getByPostID(intval($postID));
+      return $this->generateComments($comments);
     }
   }
 }
