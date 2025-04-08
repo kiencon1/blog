@@ -59,7 +59,7 @@
                 } else {
                   echo
                   "<li class='nav-item'>
-                    <a class='nav-link' aria-current='page' href='http://localhost/blog'>Blog</a>
+                    <a class='nav-link' aria-current='page' href='http://localhost/blog/blog.php'>Blog</a>
                   </li>
                   <li class='nav-item'>
                     <a class='nav-link' aria-current='page' href='http://localhost/blog/sign-out.php'>Sign out</a>
