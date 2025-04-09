@@ -10,12 +10,13 @@ class HomeController {
 
       $postDAO = new PostDAO();
       $ownedPost = [];
-      if (isset($_SESSION['USER_INFO'])) {
-        $userID = $_SESSION['USER_INFO']['userID'];
-        $ownedPost = $postDAO->getByUserID($userID);
-      } else {
-        $ownedPost = $postDAO->getByDefault();
-      }
+      // if (isset($_SESSION['USER_INFO'])) {
+      //   $userID = $_SESSION['USER_INFO']['userID'];
+      //   $ownedPost = $postDAO->getByUserID($userID);
+      // } else {
+      //   $ownedPost = $postDAO->getByDefault();
+      // }
+      $ownedPost = $postDAO->getByDefault();
 
       require __DIR__ . '/../views/home/index.php';
     }
