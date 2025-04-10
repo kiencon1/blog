@@ -33,7 +33,7 @@ class CommentDAO extends Dao {
     $sql = 'SELECT Comment.ID, Comment.Content, Comment.UserID, Comment.UpdatedAt, User.Name 
       FROM Comment JOIN User 
       ON User.ID = Comment.UserID JOIN Post ON Post.ID = Comment.PostID 
-      WHERE Post.Slug = ?';
+      WHERE Post.Slug = ? ORDER BY Comment.ID DESC';
     $stmt = $this->mysqli->prepare($sql);
     $stmt->bind_param('s', $slug);
     $stmt->execute();

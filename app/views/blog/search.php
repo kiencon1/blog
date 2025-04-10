@@ -4,14 +4,19 @@
   <main class='main'>
     <div class='container flex justify-center items-center h-full flex-col'>
       <h2>Explore topics</h2>
-      <form class='my-4' action='search.php' method='GET'>
+      <form 
+        class='my-4'
+        action='search.php'
+        method='GET'
+        id='searchForm'
+        onsubmit="return validateSearch(['title', 'categoryID', 'authorID'], 'searchForm')"
+      >
         <div class='mb-3'>
           <label for='exampleInputUser' class='form-label'>Title</label>
           <input placeholder='Search by title' 
             name='title' type='text' class='form-control' 
             id='exampleInputUser'
           >
-          <div id='emailHelp' class='form-text'></div>
         </div>
         <div class='mb-3'>
           <label for='categoryIpt' class='form-label'>Category</label>
@@ -43,6 +48,7 @@
             ?>
           </select>
         </div>
+        <small id='txtForm' class='text-red'></small>
         <button type='submit' class='btn btn-primary'>Submit</button>
       </form>
       <div class="w-full">
@@ -67,3 +73,4 @@
 <?php
   require_once __DIR__ . '/../layout/footer.php';
 ?>
+<script src="http://localhost/blog/public/js/validate.js"></script>

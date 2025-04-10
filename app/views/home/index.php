@@ -1,7 +1,6 @@
 <?php
   $__title__ = 'Medium Blog';
   require_once __DIR__ . '/../layout/header.php';
-  
 ?>
   <?php
     if (session_status() === PHP_SESSION_NONE) {
@@ -39,7 +38,7 @@
               $categoryName = $post['CategoryName'];
               $updatedAt = $post['UpdatedAt'];
               $title = $post['Title'];
-              $author = $userName ? $userName : $post['UserName'];
+              $author = $post['UserName'];
               echo "<a href='/blog/post/". $slug .".php' class='card w-full text-decoration-none p-30px mb-30px'>";
               echo "<p>In $categoryName by $author </p>";
               echo "<h3>Title: $title</h3>";

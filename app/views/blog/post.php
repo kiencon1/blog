@@ -47,6 +47,7 @@
                 <textarea placeholder='what are your thoughts?' 
                   name='content' type='text' class='form-control' id='commentID'
                 ></textarea>
+                <small id='commentError' class='text-red'></small>
                 <input class='hidden' id='userID' value='$userID' />
                 <input class='hidden' id='postID' value='$postID' />
               </div>

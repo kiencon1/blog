@@ -1,6 +1,10 @@
 document.getElementById('formCommentID').addEventListener('submit', async (e) => {
   e.preventDefault();
   const content = document.getElementById('commentID').value;
+  if (!content) {
+    document.getElementById('commentError').innerText = 'You must comment something';
+    return;
+  }
   const userID = +document.getElementById('userID').value;
   const postID = +document.getElementById('postID').value;
 

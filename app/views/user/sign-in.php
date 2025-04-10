@@ -3,15 +3,24 @@
 ?>
   <main class='main'>
     <div class='container flex justify-center items-center h-full flex-col'>
-      <form action='sign-in.php' method='POST'>
+      <form 
+        action='sign-in.php' 
+        method='POST' 
+        id='signInForm'
+        onsubmit="return validate(['username', 'password'], 'signInForm')"
+      >
         <div class='mb-3'>
           <label for='exampleInputUser' class='form-label'>User name</label>
           <input name="username" type='text' class='form-control' id='exampleInputUser'>
-          <div id='emailHelp' class='form-text'>We'll never share your information with anyone else.</div>
+          <small id='username' class='text-red'></small>
+          <div id='emailHelp' class='form-text'>
+            We'll never share your information with anyone else.
+          </div>
         </div>
         <div class='mb-3'>
           <label for='exampleInputPassword1' class='form-label'>Password</label>
           <input name="password" type='password' class='form-control' id='exampleInputPassword1'>
+          <small id='password' class='text-red'></small>
           <?php
             if (session_status() === PHP_SESSION_NONE) {
               session_start();
@@ -29,3 +38,4 @@
 <?php
   require_once __DIR__ . '/../layout/footer.php';
 ?>
+<script src="http://localhost/blog/public/js/validate.js"></script>
